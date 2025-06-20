@@ -1,0 +1,51 @@
+{
+  "name": "kima-print",
+  "version": "1.0.0",
+  "description": "A lightweight React hook for native printing with support for A4 and thermal receipt formats. Zero dependencies, 100% native browser APIs.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "print",
+    "printing",
+    "native",
+    "a4",
+    "thermal",
+    "receipt",
+    "browser",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Edgar Manuel Janota <eddiendulo@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ndulomk/kima-print.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ndulomk/kima-print/issues"
+  },
+  "homepage": "https://github.com/ndulomk/kima-print#readme",
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/react": "^18.2.43",
+    "rollup": "^4.9.0",
+    "typescript": "^5.3.3"
+  }
+}
