@@ -1,18 +1,19 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
 
 export default {
   input: 'src/index.ts',
   output: [
     {
-      file: 'dist/index.js',
+      file: 'dist/cjs/index.js',
       format: 'cjs',
       exports: 'named',
       sourcemap: true
     },
     {
-      file: 'dist/index.esm.js',
+      file: 'dist/esm/index.js',
       format: 'esm',
       exports: 'named',
       sourcemap: true
@@ -20,15 +21,18 @@ export default {
   ],
   plugins: [
     resolve({
-      browser: true
+      browser: true,
+      extensions: ['.js', '.jsx', '.ts', '.tsx']
     }),
     commonjs(),
     typescript({
       tsconfig: './tsconfig.json',
       declaration: true,
-      declarationDir: 'dist',
-      exclude: ['**/*.test.*']
-    })
+      declarationDir: 'dist/types',
+      exclude: ['**/*.test.*'],
+      importHelpers: true 
+    }),
+    terser()
   ],
-  external: ['react']
+  external: ['react', 'react-dom']
 };

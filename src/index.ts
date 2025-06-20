@@ -17,7 +17,7 @@ export interface PrintOptions {
 
 export interface UsePrintReturn {
   handlePrint: (
-    contentRef: RefObject<HTMLElement>, 
+    contentRef: RefObject<HTMLElement> | HTMLElement | null, 
     type?: PrintType, 
     options?: PrintOptions
   ) => Promise<PrintResult>;
@@ -70,16 +70,21 @@ export const usePrint = (): UsePrintReturn => {
    * @returns Promise with print result
    */
   const handlePrint = async (
-    contentRef: RefObject<HTMLElement>, 
+    contentRef: RefObject<HTMLElement> | HTMLElement | null,
     type: PrintType = 'a4',
     options: PrintOptions = {}
   ): Promise<PrintResult> => {
     const { onSuccess, onError, onStart, timeout = 5000 } = options;
 
+    const element = contentRef && (
+      (contentRef as RefObject<HTMLElement>).current || 
+      (contentRef as HTMLElement)
+    );
+
     // Validate content reference
-    if (!contentRef.current) {
-      const errorMsg = 'Conteúdo para impressão não encontrado!';
-      console.error('[usePrint]', errorMsg);
+    if (!element) {
+      const errorMsg = 'Elemento para impressão não encontrado!';
+      console.error('[kima-print]', errorMsg);
       onError?.(errorMsg);
       return { success: false, error: errorMsg, message: errorMsg };
     }
@@ -104,7 +109,7 @@ export const usePrint = (): UsePrintReturn => {
         document.body.appendChild(iframe);
 
         // Clone the content to avoid modifying the original
-        const contentClone = contentRef.current!.cloneNode(true) as HTMLElement;
+        const contentClone = element!.cloneNode(true) as HTMLElement;
 
         // Define print styles based on type
         let printStyles = '';
@@ -297,4 +302,3 @@ export const usePrint = (): UsePrintReturn => {
   return { handlePrint };
 };
 
-export default usePrint;
